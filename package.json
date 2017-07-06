@@ -41,6 +41,9 @@
     "concurrently": "3.0.0",
     "lite-server": "2.2.2",
     "typescript": "2.2.2",
-    "typings":"1.3.2"
-  }
+    "typings": "1.3.2"
+  },
+  "description": "#### An app that tracks the level of various kegs in a tap room.",
+  "main": "gulpfile.js",
+  "author": ""
 }

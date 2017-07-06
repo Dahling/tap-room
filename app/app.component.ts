@@ -1,21 +1,42 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   template: `
   <div class="container">
+  <h1>To Do List for {{month}}/{{day}}/{{year}}</h1>
     <h1>Tap Room</h1>
     <h3>{{appDescription}}</h3>
-    <ul>
-       <li [class]="priceColor(currentKeg)" (click)="isEmpty(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.description}} <button (click)="editKeg()">Edit!</button></li>
-     </ul>
-  </div>
+    <keg-list [childKegList]="masterKegList"></keg-list>
+     <hr>
+        <div>
+        <div *ngIf="selectedKeg">
+          <h3>{{selectedKeg.description}}</h3>
+          <p>Keg Empty? {{selectedKeg.done}}</p>
+          <h3>Edit Keg</h3>
+          <label>Enter Keg Description:</label>
+          <input [(ngModel)]="selectedKeg.description">
+          <label>Enter Keg Priority (1-3):</label>
+          <br>
+          <input type="radio" [(ngModel)]="selectedKeg.priority" [value]="1">1 (Low Priority)<br>
+          <input type="radio" [(ngModel)]="selectedKeg.priority" [value]="2">2 (Medium Priority)<br>
+          <input type="radio" [(ngModel)]="selectedKeg.priority" [value]="3">3 (High Priority)
+          <button (click)="finishedEditing()">Done</button>
+         </div>
+    </div>
   `
 })
 
 export class AppComponent {
   appDescription: string = 'This application tracks the level of various kegs in a tap room.';
-  kegs: Keg[] = [
+  currentTime = new Date();
+  month: number = this.currentTime.getMonth() + 1;
+  day: number = this.currentTime.getDate();
+  year: number = this.currentTime.getFullYear();
+  selectedKeg = null;
+
+  masterKegList: Keg[] = [
     new Keg('IPA', 3),
     new Keg('Porter', 3),
     new Keg('Hefe', 2),
@@ -27,34 +48,16 @@ export class AppComponent {
     new Keg('Stout', 3)
   ];
 
-  priceColor(currentKeg){
-    if (currentKeg.price === 3){
-      return "bg-danger";
-    } else if (currentKeg.price === 2) {
-      return  "bg-warning";
-    } else {
-      return "bg-info";
-    }
+    //this method defines selectedKeg as the Keg with the most recently clicked edit button
+  editKeg(clickedKeg) {
+    this.selectedKeg = clickedKeg;
   }
 
-  editKeg() {
-    alert("You just requested to edit a Task!");
+  finishedEditing() {
+    this.selectedKeg =  null;
   }
 
-  isEmpty(clickedKeg: Keg) {
-    if(clickedKeg.empty === true) {
-      alert("This keg is empty!");
-    } else {
-      alert("This keg is not empty. Better get to work!");
-    }
-  }
-
-}
-
-
-
-
-export class Keg {
-  public empty: boolean = false;
-  constructor(public description: string, public price: number) {   }
+  // editKeg() {
+  //   alert("You just requested to edit a Keg!");
+  // }
 }
