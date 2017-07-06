@@ -4,14 +4,22 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { AppComponent }   from './app.component';
 import { FormsModule }   from '@angular/forms';
 import { KegListComponent} from './keg-list.component';
+import { EditKegComponent } from './edit-keg.component';
+import { NewKegComponent } from './new-keg.component';
+import { CompletenessPipe } from './completeness.pipe';
 
 //this is the NgModule decorator
 @NgModule({
   imports: [ BrowserModule,
-                  FormsModule ],
+             FormsModule
+           ],
 //this is the declarations array
   declarations: [ AppComponent,
-                  KegListComponent ],
+                  KegListComponent,
+                  EditKegComponent,
+                  NewKegComponent,
+                  CompletenessPipe],
+
   bootstrap:    [ AppComponent ]
 })
 

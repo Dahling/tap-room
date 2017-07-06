@@ -1,29 +1,23 @@
-import { Component } from '@angular/core';
+//PARENT FILE
 
+import { Component } from '@angular/core';
+import { Keg } from './keg.model';
 
 @Component({
   selector: 'app-root',
   template: `
   <div class="container">
-  <h1>To Do List for {{month}}/{{day}}/{{year}}</h1>
+  <h1>Inventory for {{month}}/{{day}}/{{year}}</h1>
     <h1>Tap Room</h1>
     <h3>{{appDescription}}</h3>
-    <keg-list [childKegList]="masterKegList"></keg-list>
-     <hr>
-        <div>
-        <div *ngIf="selectedKeg">
-          <h3>{{selectedKeg.description}}</h3>
-          <p>Keg Empty? {{selectedKeg.done}}</p>
-          <h3>Edit Keg</h3>
-          <label>Enter Keg Description:</label>
-          <input [(ngModel)]="selectedKeg.description">
-          <label>Enter Keg Priority (1-3):</label>
-          <br>
-          <input type="radio" [(ngModel)]="selectedKeg.priority" [value]="1">1 (Low Priority)<br>
-          <input type="radio" [(ngModel)]="selectedKeg.priority" [value]="2">2 (Medium Priority)<br>
-          <input type="radio" [(ngModel)]="selectedKeg.priority" [value]="3">3 (High Priority)
-          <button (click)="finishedEditing()">Done</button>
-         </div>
+    <!--Keg List-->
+    <keg-list [childKegList]="masterKegList" (clickSender)="editKeg($event)"></keg-list>
+
+    <hr>
+
+    <!--Edit Kegs-->
+    <edit-keg [childSelectedKeg]="selectedKeg" (emptyButtonClickedSender)="finishedEditing()"></edit-keg>
+    <new-keg (newKegSender)="addKeg($event)"></new-keg>
     </div>
   `
 })
@@ -57,7 +51,8 @@ export class AppComponent {
     this.selectedKeg =  null;
   }
 
-  // editKeg() {
-  //   alert("You just requested to edit a Keg!");
-  // }
+  addKeg(newKegFromChild: Keg) {
+   this.masterKegList.push(newKegFromChild);
+ }
+
 }
